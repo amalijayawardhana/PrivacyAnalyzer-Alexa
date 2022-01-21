@@ -6,10 +6,7 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.json.JSONObject;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -17,12 +14,9 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.testng.annotations.Test;
-import readExcel.WriteExcel;
 
 import java.io.*;
 import java.util.List;
-import java.util.ListIterator;
 
 public class UserLoginStepDefinition extends Base {
     private String actualResponseMessage1 = "";
@@ -141,42 +135,58 @@ public class UserLoginStepDefinition extends Base {
     }
 
     @When("user verify response message")
-    public void userVerifyResponseMessage(DataTable dataTable) throws Throwable {
+    public void userVerifyResponseMessage() throws Throwable {
         Thread.sleep(10000);
-        boolean request = dr.findElement(By.cssSelector(".askt-dialog__bubble--request")).isDisplayed();
-        boolean response = dr.findElement(By.cssSelector(".askt-dialog__message--response")).isDisplayed();
+//        boolean req = dr.findElement(By.cssSelector(".askt-dialog__bubble--request")).isDisplayed();
+//        boolean res = dr.findElement(By.cssSelector(".askt-dialog__message--response")).isDisplayed();
 
-//            boolean responseMessage = dr.findElement(By.xpath("//div[@id='astro-tabs-1-panel-0']/div[2]/div[2]/p")).isDisplayed();
-//            boolean responseMessage = dr.findElement(By.cssSelector(".askt-dialog__message.askt-dialog__message--request")).isDisplayed();
-//        boolean responseMessage = dr.findElement(By.cssSelector(".askt-dialog__message.askt-dialog__message--active-response")).isDisplayed();
-        Assert.assertArrayEquals(new boolean[]{true, true}, new boolean[]{
-                request, response});
+//        Assert.assertArrayEquals(new boolean[]{true, true}, new boolean[]{
+//                req, res});
 //        ListIterator<WebElement> requestMessageElements = dr.findElements(By.cssSelector(".askt-dialog__message--request")).listIterator();
+        List<WebElement> requests = dr.findElements(By.cssSelector("div[data-qa-hook='skill-testing-dialog-request']"));
+        List<WebElement> responses = dr.findElements(By.cssSelector("div[data-qa-hook='skill-testing-dialog-response']"));
 //        ListIterator<WebElement> responseMessageElements = dr.findElements(By.cssSelector(".askt-dialog__message--response")).listIterator();
         List<WebElement> elementList = dr.findElements(By.cssSelector(".askt-dialog"));
-        String objects = elementList.toArray().toString();
-        for (WebElement element : elementList
+//        String objects = elementList2.toArray().toString();
+
+        JSONObject array = new JSONObject();
+        JSONObject requestObj = new JSONObject();
+        JSONObject responseObj = new JSONObject();
+        int i = 1;
+        for (WebElement response:responses
         ) {
-            System.out.println();
-            System.out.println();
-            System.out.println();
-            System.out.println(element.getText().lines().toArray().length);
-            System.out.println(element.getText().lines().toArray()[0]);
-            System.out.println(objects);
-            System.out.println();
-            System.out.println();
-            System.out.println();
-            Object data = element.getText();
-//            WriteExcel obj = new WriteExcel();
-//            obj.writeExcel("console", "ddgdf", 1, 1);
-//            obj.writeExcel("console", "amali", 1, 2);
-//            PrintStream myTextFile = new PrintStream(new File("/home/amali/Documents/msc/PrivacyAnalyzer-Alexa/testData/test.txt"));
-//            System.setOut(myTextFile);
-//            myTextFile.print(data);
+            responseObj.put("Response"+i,response.getText());
+//            responseObj.put("r2","dont know");
+//            responseObj.put("r3","welcome");
+            String resText;
+            resText= "Response-"+i+":"+response.getText();
+            System.out.println(resText);
+            i++;
+
+        }
+        int j=1;
+        for (WebElement request : requests
+        ) {
+            requestObj.put("Request"+j,request.getText());
+            j++;
+
+//            Object data = request.getText();
+//            JSONObject jsonObject = new JSONObject();
+//            requestObj.put("m1","Hi");
+//            requestObj.put("m2","email");
+//            requestObj.put("m3","Thank you");
+
+        }
+        array.put("request", requestObj);
+        array.put("response", responseObj);
+        String message = array.toString();
+
         try {
-            FileWriter fileWriter = new FileWriter("/home/amali/Documents/msc/PrivacyAnalyzer-Alexa/testData/test.txt", true);
+            FileWriter fileWriter = new FileWriter("/home/amali/Documents/msc/PrivacyAnalyzer-Alexa/testData/json.json", true);
             PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.println(data);
+            printWriter.println(message);
+            printWriter.println(",");
+//            printWriter.println();
             printWriter.close();
             fileWriter.close();
             System.out.println("successfully saved the data into file");
@@ -184,20 +194,8 @@ public class UserLoginStepDefinition extends Base {
             e.printStackTrace();
         }
 
-
-        }
-
-
         Thread.sleep(10000);
-
-
     }
 
-//    @Test
-//    public void write() throws Exception {
-//        WriteExcel obj = new WriteExcel();
-//        obj.writeExcel("console", "ddgdf", 1, 1);
-//
-//    }
 
 }
