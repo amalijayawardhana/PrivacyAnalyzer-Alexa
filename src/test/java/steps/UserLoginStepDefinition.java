@@ -1,10 +1,15 @@
 package steps;
 
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -12,8 +17,11 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.testng.annotations.Test;
+import readExcel.WriteExcel;
 
-import java.io.IOException;
+import java.io.*;
+import java.util.List;
 import java.util.ListIterator;
 
 public class UserLoginStepDefinition extends Base {
@@ -66,6 +74,14 @@ public class UserLoginStepDefinition extends Base {
         dr.findElement(By.id("ap_password")).sendKeys(password);
     }
 
+    @When("^click on keep me signin$")
+    public void clickKeepMeSignin() throws Throwable {
+        Thread.sleep(1000);
+        dr.findElement(By.xpath("//*[@id=\"authportal-main-section\"]/div[2]/div/div/form/div/div/div/div[3]/div[2]/div/label/div/label/input")).click();
+//        JavascriptExecutor jse = (JavascriptExecutor) dr;
+//        jse.executeScript("arguments[0].click()", dr.findElement(By.id("signInSubmit")));
+        Thread.sleep(1000);
+    }
 
     @When("^click on login button$")
     public void clickLoginButton() throws Throwable {
@@ -73,7 +89,7 @@ public class UserLoginStepDefinition extends Base {
 //            dr.findElement(By.id("signInSubmit")).click();
         JavascriptExecutor jse = (JavascriptExecutor) dr;
         jse.executeScript("arguments[0].click()", dr.findElement(By.id("signInSubmit")));
-
+        Thread.sleep(10000);
     }
 
     @Then("^user should logged in successfully$")
@@ -103,7 +119,7 @@ public class UserLoginStepDefinition extends Base {
     }
 
     @When("^user type \"(.*)\" and \"(.*)\"$")
-    public void userTypeUsernamePassword(String username, String password) throws IOException {
+    public void userTypeUsernamePassword(String username, String password) throws Throwable {
         //dr.findElement(By.xpath("//*[@id='username']")).sendKeys(getProperty("daAdminUsername"));
         dr.findElement(By.id("ap_email")).sendKeys(username);
         dr.findElement(By.id("ap_password")).sendKeys(password);
@@ -125,7 +141,7 @@ public class UserLoginStepDefinition extends Base {
     }
 
     @When("user verify response message")
-    public void userVerifyResponseMessage() throws Throwable {
+    public void userVerifyResponseMessage(DataTable dataTable) throws Throwable {
         Thread.sleep(10000);
         boolean request = dr.findElement(By.cssSelector(".askt-dialog__bubble--request")).isDisplayed();
         boolean response = dr.findElement(By.cssSelector(".askt-dialog__message--response")).isDisplayed();
@@ -135,26 +151,53 @@ public class UserLoginStepDefinition extends Base {
 //        boolean responseMessage = dr.findElement(By.cssSelector(".askt-dialog__message.askt-dialog__message--active-response")).isDisplayed();
         Assert.assertArrayEquals(new boolean[]{true, true}, new boolean[]{
                 request, response});
-        ListIterator<WebElement> requestMessageElements = dr.findElements(By.cssSelector(".askt-dialog__message--request")).listIterator();
-        ListIterator<WebElement> responseMessageElements = dr.findElements(By.cssSelector(".askt-dialog__message--response")).listIterator();
-
-        for (ListIterator<WebElement> it = requestMessageElements; it.hasNext(); ) {
-            WebElement requestMessageElement = it.next();
-            String requestMessage = requestMessageElement.getText();
-            System.out.println("request Message " + ": " + requestMessage);
+//        ListIterator<WebElement> requestMessageElements = dr.findElements(By.cssSelector(".askt-dialog__message--request")).listIterator();
+//        ListIterator<WebElement> responseMessageElements = dr.findElements(By.cssSelector(".askt-dialog__message--response")).listIterator();
+        List<WebElement> elementList = dr.findElements(By.cssSelector(".askt-dialog"));
+        String objects = elementList.toArray().toString();
+        for (WebElement element : elementList
+        ) {
+            System.out.println();
+            System.out.println();
+            System.out.println();
+            System.out.println(element.getText().lines().toArray().length);
+            System.out.println(element.getText().lines().toArray()[0]);
+            System.out.println(objects);
+            System.out.println();
+            System.out.println();
+            System.out.println();
+            Object data = element.getText();
+//            WriteExcel obj = new WriteExcel();
+//            obj.writeExcel("console", "ddgdf", 1, 1);
+//            obj.writeExcel("console", "amali", 1, 2);
+//            PrintStream myTextFile = new PrintStream(new File("/home/amali/Documents/msc/PrivacyAnalyzer-Alexa/testData/test.txt"));
+//            System.setOut(myTextFile);
+//            myTextFile.print(data);
+        try {
+            FileWriter fileWriter = new FileWriter("/home/amali/Documents/msc/PrivacyAnalyzer-Alexa/testData/test.txt", true);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.println(data);
+            printWriter.close();
+            fileWriter.close();
+            System.out.println("successfully saved the data into file");
+        }catch (IOException e){
+            e.printStackTrace();
         }
-        for (ListIterator<WebElement> it = responseMessageElements; it.hasNext(); ) {
-            WebElement responseMessageElement = it.next();
-            String responseMessage = responseMessageElement.getText();
-            System.out.println("request Message " + ": " + responseMessage);
+
 
         }
 
-        dr.findElements(By.cssSelector(".askt-dialog__message--request"));
 
         Thread.sleep(10000);
 
+
     }
 
+//    @Test
+//    public void write() throws Exception {
+//        WriteExcel obj = new WriteExcel();
+//        obj.writeExcel("console", "ddgdf", 1, 1);
+//
+//    }
 
 }
