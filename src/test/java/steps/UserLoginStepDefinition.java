@@ -1,6 +1,7 @@
 package steps;
 
-import io.cucumber.datatable.DataTable;
+import io.cucumber.core.internal.gherkin.deps.com.google.gson.Gson;
+import io.cucumber.core.internal.gherkin.deps.com.google.gson.JsonArray;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
@@ -16,7 +17,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.io.*;
-import java.util.List;
+import java.util.*;
 
 public class UserLoginStepDefinition extends Base {
     private String actualResponseMessage1 = "";
@@ -156,11 +157,6 @@ public class UserLoginStepDefinition extends Base {
         for (WebElement response:responses
         ) {
             responseObj.put("Response"+i,response.getText());
-//            responseObj.put("r2","dont know");
-//            responseObj.put("r3","welcome");
-            String resText;
-            resText= "Response-"+i+":"+response.getText();
-            System.out.println(resText);
             i++;
 
         }
@@ -169,22 +165,62 @@ public class UserLoginStepDefinition extends Base {
         ) {
             requestObj.put("Request"+j,request.getText());
             j++;
-
-//            Object data = request.getText();
-//            JSONObject jsonObject = new JSONObject();
-//            requestObj.put("m1","Hi");
-//            requestObj.put("m2","email");
-//            requestObj.put("m3","Thank you");
-
         }
         array.put("request", requestObj);
         array.put("response", responseObj);
         String message = array.toString();
 
+
+        JSONObject newArray = new JSONObject();
+        LinkedHashMap<String, String> dataMap = new LinkedHashMap<>();
+        ArrayList<String> dataArray = new ArrayList<String>();
+        JsonArray jsonElements = new JsonArray();
+
+        JSONObject newRequestObj = new JSONObject();
+        JSONObject newResponseObj = new JSONObject();
+        for (WebElement element:elementList
+             ) {
+            List<WebElement> resElements = element.findElements(By.cssSelector(".askt-dialog__bubble"));
+            int c = 1;
+            int k = 1;
+            for (WebElement res:resElements
+                 ) {
+                System.out.println();
+                String className = res.getAttribute("class");
+                System.out.println();
+                if (className.contains("request")){
+                    newArray.put("Request"+c,res.getText());
+                    dataMap.put("Request"+c,res.getText());
+
+//                    dataArray.add("Request"+c+":"+res.getText());
+                    System.out.println("Request "+c+"=" +res.getText());
+                    c++;
+                    System.out.println();
+                }else {
+                    newArray.put("Response"+k,res.getText());
+                    dataMap.put("Response"+k,res.getText());
+
+                    System.out.println("Response"+k+"=" +res.getText());
+                    k++;
+                }
+            }
+
+
+        }
+        String newMessage = newArray.toString();
+        String s = dataMap.toString();
+        String jsonString1 = new JSONObject(dataMap).toString();
+        String jsonString = new Gson().toJson(dataMap, Map.class);
         try {
             FileWriter fileWriter = new FileWriter("/home/amali/Documents/msc/PrivacyAnalyzer-Alexa/testData/json.json", true);
             PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.println(message);
+//            printWriter.println("JSON object");
+//            printWriter.println(message);
+//            printWriter.println(newMessage);
+//            printWriter.println(",");
+//            printWriter.println(jsonString1);
+//            printWriter.println(",");
+            printWriter.println(jsonString);
             printWriter.println(",");
 //            printWriter.println();
             printWriter.close();

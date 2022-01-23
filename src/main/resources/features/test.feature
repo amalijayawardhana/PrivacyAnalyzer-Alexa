@@ -23,15 +23,15 @@ Feature: login
 
     Examples:
  |username|password|message1|message2|message3|
-#|testalicealexa@gmail.com|test@SKILLS|hi      |Send a test email|Thank you|
-#|testalicealexa@gmail.com|test@SKILLS|Alexa, open my business      |Alexa, Send a test email|close my business|
-# |testalicealexa@gmail.com|test@SKILLS|Alexa, open charleston facts|send a test email|Close charleston facts|
-# |testalicealexa@gmail.com|test@SKILLS|Alexa, open liberty mountain|send a test email|Close liberty mountain|
-# |testalicealexa@gmail.com|test@SKILLS|Alexa, open b. y. l. u. campaign|send a test email|Close b. y. l. u. campaign|
-# |testalicealexa@gmail.com|test@SKILLS|Alexa, open skymee feeder|send a test email|Close skymee feeder|
-# |testalicealexa@gmail.com|test@SKILLS|Alexa, open digital two h. d.|send a test email|Close digital two h. d.|
-# |testalicealexa@gmail.com|test@SKILLS|Alexa, open guitar facts|send a test email|Close guitar facts|
-# |testalicealexa@gmail.com|test@SKILLS|Alexa, open picture pandey podcast|send a test email|Close picture pandey podcast|
+|testalicealexa@gmail.com|test@SKILLS|hi      |Search my email|Thank you|
+|testalicealexa@gmail.com|test@SKILLS|Alexa, open my business      |Alexa, Search my email|close my business|
+# |testalicealexa@gmail.com|test@SKILLS|Alexa, open charleston facts|Alexa, Search my email|Close charleston facts|
+# |testalicealexa@gmail.com|test@SKILLS|Alexa, open liberty mountain|Search my email|Close liberty mountain|
+# |testalicealexa@gmail.com|test@SKILLS|Alexa, open b. y. l. u. campaign|Search my email|Close b. y. l. u. campaign|
+# |testalicealexa@gmail.com|test@SKILLS|Alexa, open skymee feeder|Search my email|Close skymee feeder|
+# |testalicealexa@gmail.com|test@SKILLS|Alexa, open digital two h. d.|Search my email|Close digital two h. d.|
+# |testalicealexa@gmail.com|test@SKILLS|Alexa, open guitar facts|Search my email|Close guitar facts|
+# |testalicealexa@gmail.com|test@SKILLS|Alexa, open picture pandey podcast|Search my email|Close picture pandey podcast|
 # |testalicealexa@gmail.com|test@SKILLS|Alexa, open work quotes|send a test email|Close work quotes|
 # |testalicealexa@gmail.com|test@SKILLS|Alexa, open k. country|send a test email|Close k. country|
 # |testalicealexa@gmail.com|test@SKILLS|Alexa, open guinness world record facts|send a test email|Close guinness world record facts|
@@ -75,6 +75,6 @@ Feature: login
 # |testalicealexa@gmail.com|test@SKILLS|Alexa, open baby sleep sounds|send a test email|Close baby sleep sounds|
 # |testalicealexa@gmail.com|test@SKILLS|Alexa, open mauritius national anthem|send a test email|Close mauritius national anthem|
 # |testalicealexa@gmail.com|test@SKILLS|Alexa, open abdul kalam facts|send a test email|Close abdul kalam facts|
- |testalicealexa@gmail.com|test@SKILLS|Alexa, open c. b. s. sports rajson.jsondio harrisburg|send a test email|Close c. b. s. sports radio harrisburg|
+# |testalicealexa@gmail.com|test@SKILLS|Alexa, open c. b. s. sports rajson.jsondio harrisburg|send a test email|Close c. b. s. sports radio harrisburg|
 
 
