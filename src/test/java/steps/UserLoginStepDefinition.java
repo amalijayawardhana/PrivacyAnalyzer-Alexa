@@ -183,31 +183,65 @@ public class UserLoginStepDefinition extends Base {
             List<WebElement> resElements = element.findElements(By.cssSelector(".askt-dialog__bubble"));
             int c = 1;
             int k = 1;
+            int s = 1;
+            int p = 1;
+            int q = 1;
             for (WebElement res:resElements
                  ) {
+//                a=c;
                 System.out.println();
                 String className = res.getAttribute("class");
                 System.out.println();
                 if (className.contains("request")){
                     newArray.put("Request"+c,res.getText());
                     dataMap.put("Request"+c,res.getText());
+//                    dataMap.put("Request"+c+".0",res.getText());
 
 //                    dataArray.add("Request"+c+":"+res.getText());
-                    System.out.println("Request "+c+"=" +res.getText());
+                    System.out.println("Request "+c+".0 =" +res.getText());
+                    s=c;
                     c++;
                     System.out.println();
                 }else {
-                    newArray.put("Response"+k,res.getText());
-                    dataMap.put("Response"+k,res.getText());
+//                    dataMap.put("Response" + k, res.getText());
 
-                    System.out.println("Response"+k+"=" +res.getText());
-                    k++;
+                    if (s==1){
+                        dataMap.put("Response" + s + "." + k, res.getText());
+                        k++;
+                    }else if (s==2){
+                        dataMap.put("Response" + s + "." + p, res.getText());
+                        p++;
+                    }else if (s==3){
+                        dataMap.put("Response" + s + "." + q, res.getText());
+                        q++;
+                    }
+ /*                   if (a==s) {
+                        newArray.put("Response" + k, res.getText());
+                        dataMap.put("Response" + s + "." + k, res.getText());
+
+                        System.out.println("Response" + s + "." + k + "=" + res.getText());
+                        k++;
+
+                    }else {
+                        k = 1;
+                        newArray.put("Response" + k, res.getText());
+                        dataMap.put("Response" + s + "." + k, res.getText());
+
+                        System.out.println("Response" + s + "." + k + "=" + res.getText());
+                        k++;
+
+
+                    }
+*/
+
                 }
             }
 
 
         }
         String newMessage = newArray.toString();
+//        String msg = new Gson().toJson(newArray, Map.class);
+
         String s = dataMap.toString();
         String jsonString1 = new JSONObject(dataMap).toString();
         String jsonString = new Gson().toJson(dataMap, Map.class);
