@@ -38,8 +38,11 @@ public class UserLoginStepDefinition extends Base {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--no-sandbox"); //Bypass OS security model
         options.addArguments("--start-maximized");
+//        options.addArguments("--start-minimized");
         options.addArguments("--disable-dev-shm-usage");
-//            options.addArguments("--headless");
+        options.addArguments("--mute-audio");
+//        options.addArguments("--disable-popup-blocking");
+            options.addArguments("--headless");
         options.addArguments("ignore-certificate-errors");
         options.addArguments("--ignore-ssl-errors=yes");
         dr = new ChromeDriver(options);
@@ -89,7 +92,7 @@ public class UserLoginStepDefinition extends Base {
 
     @Then("^user should logged in successfully$")
     public void verifySuccessful() throws Throwable {
-        Thread.sleep(5000);
+        Thread.sleep(10000);
         boolean icon = dr.findElement(By.xpath("//*[@id=\"dpc-header-logo\"]/div/div[2]/span")).isDisplayed();
 //            boolean question = dr.findElement(By.xpath("//*[@id=\"root\"]/span/div/div/div/div/ul/div/div/h2")).isDisplayed();
 //            boolean welcome = dr.findElement(By.xpath("//*[@id=\"root\"]/span/div/div/div/div/ul/div/div/h4")).isDisplayed();
