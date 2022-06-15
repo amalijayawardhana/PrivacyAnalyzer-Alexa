@@ -6,6 +6,7 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,7 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 public class WriteExcel {
-    @SuppressWarnings("null")
+    @Test
     public void writeExcel(String sheetName, String cellValue, int rowNumber, int colNumber) throws Exception {
         String excelPath = "/home/amali/Documents/msc/PrivacyAnalyzer-Alexa/testData/Testcases.xlsx";
         File file = new File(excelPath);
@@ -40,6 +41,7 @@ public class WriteExcel {
         System.out.println("Excel write success");
     }
 
+//    @Test
     private static void createSheet(String add, Row row) throws Exception {
         XSSFWorkbook book = new XSSFWorkbook();
         XSSFSheet sheet = book.createSheet("newsheet");
@@ -51,6 +53,7 @@ public class WriteExcel {
         out.close();
     }
 
+    @Test
     private static void createlist(String add, Row row) {
         Cell cell = row.createCell(0);
         cell.setCellValue(add);
